@@ -25,7 +25,14 @@ class App extends React.Component {
     })
   }
 
-
+  onFindPetsClick = () => {
+    const optionalQuery = this.state.filters.type === 'all'
+      ? ""
+      : `?type=${this.state.filters.type}`
+    fetch(`/api/pets${optionalQuery}`)
+      .then(response => response.json())
+      .then(pets => this.setState({ pets }))
+  }
 
   render() {
     return (
@@ -37,7 +44,8 @@ class App extends React.Component {
           <div className="ui grid">
             <div className="four wide column">
               <Filters
-                onChangeType={this.onChangeType} />
+                onChangeType={this.onChangeType}
+                onFindPetsClick={this.onFindPetsClick} />
             </div>
             <div className="twelve wide column">
               <PetBrowser />
